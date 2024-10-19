@@ -1,48 +1,48 @@
 
 # Site Discord v1
 
-This is a simple web project that includes an HTML page styled with CSS and supported by various assets. The project is structured to be easily deployed or modified as needed.
+Ceci est un projet web simple qui comprend une page HTML stylée avec CSS et soutenue par divers éléments. Le projet est structuré pour être facilement déployé ou modifié si nécessaire.
 
-## Project Structure
+## Structure du Projet
 
-- **index.html**: The main HTML file that serves as the entry point for the website.
-- **style-load.css**: The stylesheet used to apply styles to the HTML elements.
-- **assets/**: This directory contains the static assets (such as images, fonts, etc.) used on the website.
-- **site/**: Additional pages or site-related files can be found in this folder.
-- **.git/**: Git repository tracking for version control.
+- **index.html** : Le fichier HTML principal qui sert de point d'entrée au site web.
+- **style-load.css** : La feuille de style utilisée pour appliquer les styles aux éléments HTML.
+- **assets/** : Ce répertoire contient les éléments statiques (tels que des images, polices, etc.) utilisés sur le site web.
+- **site/** : Ce dossier peut contenir des pages supplémentaires ou des fichiers liés au site.
+- **.git/** : Suivi de dépôt Git pour le contrôle de version.
 
-## Getting Started
+## Démarrage
 
-To view the site locally:
+Pour visualiser le site en local :
 
-1. Clone the repository (if you haven't already):
+1. Clonez le dépôt (si ce n'est pas déjà fait) :
    ```bash
-   git clone https://github.com/yourusername/site-discord-v1.git
+   git clone https://github.com/votreutilisateur/site-discord-v1.git
    ```
 
-2. Navigate to the project directory:
+2. Accédez au répertoire du projet :
    ```bash
    cd site-discord-v1
    ```
 
-3. Open the `index.html` file in your browser to view the website.
+3. Ouvrez le fichier `index.html` dans votre navigateur pour voir le site.
 
-## Deployment
+## Déploiement
 
-The project can be deployed to any static file hosting service such as GitHub Pages, Netlify, or Vercel. Simply upload the contents of the project to your preferred platform.
+Le projet peut être déployé sur n'importe quel service d'hébergement de fichiers statiques, tel que GitHub Pages, Netlify, ou Vercel. Il suffit de télécharger le contenu du projet sur la plateforme de votre choix.
 
-## Customization
+## Personnalisation
 
-- **HTML**: Modify the content inside the `index.html` file to update the structure and text of the website.
-- **CSS**: Modify `style-load.css` to change the styling of the website.
-- **Assets**: Add or replace images, fonts, or other media in the `assets/` directory.
+- **HTML** : Modifiez le contenu du fichier `index.html` pour mettre à jour la structure et le texte du site web.
+- **CSS** : Modifiez `style-load.css` pour changer le style du site.
+- **Assets** : Ajoutez ou remplacez les images, polices ou autres médias dans le répertoire `assets/`.
 
 ## Contributions
 
-Feel free to open a pull request or submit issues for any bugs or feature requests.
+N'hésitez pas à soumettre une pull request ou à ouvrir des issues pour signaler des bugs ou proposer des fonctionnalités.
 
 ---
 
-### License
+### Licence
 
-This project is open-source and available under the [MIT License](LICENSE).
+Ce projet est open-source et disponible sous la licence [MIT](LICENSE).
