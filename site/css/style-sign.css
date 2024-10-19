@@ -134,3 +134,14 @@ p {
 label {
   margin-bottom: 8px;
 }
+
+.chargement{
+  width: auto;
+  margin: 5px;
+  padding: 10px 15px 10px 15px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #36393f;
+  border-radius: 5px ;
+}
