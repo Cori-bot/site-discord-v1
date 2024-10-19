@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <link rel="icon" href="/assets/img/discord-logo.ico" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion / Inscription</title>
+    <link rel="stylesheet" href="/site/css/style-sign.css" />
+  </head>
+  <body>
+    <div class="box">
+      <h2>Ha, te revoilà !</h2>
+      <p>Nous sommes si heureux de te revoir !</p>
+      <form class="login-form">
+        <label for="email">E-MAIL OU NUMÉRO DE TÉLÉPHONE</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          required
+          autocomplete="webauthn"
+        />
+        <label for="password">MOT DE PASSE</label>
+        <input type="password" id="password" name="password" required />
+        <a href="#" class="forgot-password">Tu as oublié ton mot de passe ?</a>
+        <button type="submit">Connexion</button>
+        <p>Besoin d'un compte ? <a href="#">S'inscrire</a></p>
+      </form>
+    </div>
+  </body>
+</html>
+<script src="/site/script/script-sign.js"></script>

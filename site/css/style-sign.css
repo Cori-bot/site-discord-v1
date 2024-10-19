@@ -1,0 +1,134 @@
+@font-face {
+  font-family: "GG-extrabold";
+  src: url("/assets/fonts/ggsans-ExtraBold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GG-semibold";
+  src: url("/assets/fonts/ggsans-Semibold.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+  font-family: "GG-semibold";
+  background-image: url("/assets/img/background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@keyframes slideDownBounce {
+  0% {
+    transform: translateY(-10vh);
+    opacity: 0.5;
+  }
+  60% {
+    transform: translateY(20px);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.box {
+  font-size: 20px;
+  background-color: #36393f;
+  padding: 40px 40px 10px 40px;
+  border-radius: 10px;
+  width: 480px;
+  text-align: center;
+  color: white;
+  box-shadow: 0px 0px 50px 15px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: slideDownBounce 0.25s ease-out forwards;
+}
+
+.box p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.shadow {
+  opacity: 50%;
+}
+
+.login-form {
+  font-family: "GG-extrabold";
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  color: oklab(0.786807 -0.0025776 -0.0110238);
+}
+
+input {
+  font-family: "GG-semibold";
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  background-color: #202225;
+  min-height: 40px;
+  color: white;
+  padding: 10px 40px 10px 10px;
+  margin-bottom: 25px;
+}
+
+a {
+  font-size: 14px;
+  font-family: "GG-semibold";
+  color: oklab(0.700834 -0.078035 -0.1469);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.forgot-password {
+  margin-top: -18px;
+  margin-bottom: 25px;
+}
+
+button {
+  cursor: pointer;
+  background-color: #5865f2;
+  color: white;
+  font-family: "GG-semibold";
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  min-height: 40px;
+  margin: 0 0 8px;
+}
+
+p,
+h2 {
+  cursor: default;
+}
+
+p {
+  color: oklab(0.686679 -0.00398019 -0.0150182);
+}
+
+label {
+  margin-bottom: 8px;
+}
