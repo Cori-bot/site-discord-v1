@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/3b14fd07-a260-42ad-9207-818eccd7bcf2/deploy-status)](https://app.netlify.com/sites/template-discord/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/08150b2b-b4f3-438f-a7bc-5b1adeb7a635/deploy-status)](https://app.netlify.com/sites/template-discord/deploys)
 
 <div align="center">
     <img src="https://forthebadge.com/images/badges/made-with-html.svg" alt="html">
