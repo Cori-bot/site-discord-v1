@@ -1,50 +1,50 @@
 body {
-    background-color: #23272a;
-    font-family: sans-serif;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: #23272a;
+  font-family: sans-serif;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo-loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: auto;
-    height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: auto;
 }
 
 .loading {
-    width: 100%;
-    min-height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  min-height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .loading .line-box {
-    padding: 2px;
-    width: 40%;
-    height: 20px;
-    border: 2px solid #23272a;
-    border-radius: 20px;
+  padding: 2px;
+  width: 40%;
+  height: 20px;
+  border: 2px solid #23272a;
+  border-radius: 20px;
 }
 
 .loading .line-box .line {
-    height: 20px;
-    border-radius: 20px;
-    background: rgb(255, 255, 255);
-    animation: loading 2.5s forwards cubic-bezier(0, 0, 0, 0);
+  height: 20px;
+  border-radius: 20px;
+  background: rgb(255, 255, 255);
+  animation: loading 2.5s forwards cubic-bezier(0, 0, 0, 0);
 }
 
 @keyframes loading {
-    0% {
-        width: 0%;
-    }
+  0% {
+    width: 0%;
+  }
 
-    100% {
-        width: 100%;
-    }
+  100% {
+    width: 100%;
+  }
 }

@@ -15,21 +15,23 @@ Ceci est un projet web simple qui comprend une page de chargement, une page de c
 Pour visualiser le site en local :
 
 1. Clonez le dépôt (si ce n'est pas déjà fait) :
-   * ```bash
+
+   - ```bash
       git clone https://github.com/votreutilisateur/site-discord-v1.git
-      ```
+     ```
 
 2. Accédez au répertoire du projet :
-   *  ```bash
-      cd site-discord-v1
-      ```
+
+   - ```bash
+     cd site-discord-v1
+     ```
 
 3. Ouvrez le fichier `index.html` dans votre navigateur pour voir le site.
 
 ## Déploiement
 
->[!IMPORTANT]
->Vous pouvez récupérer ce projet, le modifier et l'utiliser n'importe où.
+> [!IMPORTANT]
+> Vous pouvez récupérer ce projet, le modifier et l'utiliser n'importe où.
 
 Le projet peut être déployé sur n'importe quel service d'hébergement de fichiers statiques, tel que GitHub Pages, Netlify, ou Vercel. Il suffit de télécharger le contenu du projet sur la plateforme de votre choix.
 
