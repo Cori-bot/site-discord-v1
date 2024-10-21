@@ -5,29 +5,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Connexion / Inscription</title>
-    <link rel="stylesheet" href="/site/css/style-sign.css" />
+    <link rel="stylesheet" href="/site/css/style-form.css" />
   </head>
   <body>
     <div class="box">
       <h2>Ha, te revoilà !</h2>
       <p>Nous sommes si heureux de te revoir !</p>
       <form class="login-form">
-        <label for="email">E-MAIL OU NUMÉRO DE TÉLÉPHONE</label>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          required
-          autocomplete="webauthn"
-        />
+        <label for="email">E-MAIL</label>
+        <input type="email" id="email" name="email" required />
         <label for="password">MOT DE PASSE</label>
         <input type="password" id="password" name="password" required />
-        <a href="#" class="forgot-password">Tu as oublié ton mot de passe ?</a>
+        <a href="/site/forgot-password.html" class="forgot-password"
+          >Tu as oublié ton mot de passe ?</a
+        >
         <button type="submit">Connexion</button>
         <p>Besoin d'un compte ? <a href="/site/sign-up.html">S'inscrire</a></p>
       </form>
     </div>
-    <a href="/index.html"><button class="chargement">🔙Page de chargement</button></a>
+    <a href="/index.html"
+      ><button class="chargement">🔙Page de chargement</button></a
+    >
   </body>
 </html>
-<script src="/site/script/script-sign.js"></script>
+<script src="/site/script/script-forgot.js"></script>

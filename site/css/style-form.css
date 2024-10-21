@@ -72,7 +72,11 @@ body {
   opacity: 50%;
 }
 
-.login-form {
+.login-form,
+.signup-form,
+.request-code-form,
+.verify-code-form,
+.reset-password-form {
   font-family: "GG-extrabold";
   font-size: 12px;
   display: flex;
@@ -135,7 +139,7 @@ label {
   margin-bottom: 8px;
 }
 
-.chargement{
+.chargement {
   width: auto;
   margin: 5px;
   padding: 10px 15px 10px 15px;
@@ -143,5 +147,50 @@ label {
   bottom: 0;
   right: 0;
   background-color: #36393f;
-  border-radius: 5px ;
+  border-radius: 5px;
+}
+
+.terms-label input[type="checkbox"] {
+  display: none;
+}
+
+.terms-label {
+  display: flex;
+  align-items: center;
+  margin: 17px 0 25px 0;
+}
+
+.custom-checkbox {
+  display: inline-block;
+  width: 20px; 
+  height: 20px; 
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-right: 10px;
+  position: relative;
+}
+
+.terms-label input[type="checkbox"]:checked + .custom-checkbox {
+  background-color: #5865f2;
+}
+
+.terms-label input[type="checkbox"]:checked + .custom-checkbox::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  width: 6px;
+  height: 12px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+#signup-button:disabled {
+  opacity: 0.5; 
+  cursor: not-allowed; 
+}
+
+#signup-button {
+  opacity: 1; 
+  cursor: pointer; 
 }
