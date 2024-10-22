@@ -19,4 +19,11 @@ document.getElementById("verify-code-form").addEventListener("submit", function 
 document.getElementById("reset-password-form").addEventListener("submit", function (e) {
     e.preventDefault();
     // Logique pour changer le mot de passe ici
+    document.getElementById("reset-password-form").style.display = "none";
+    document.getElementById("password-changed").style.display = "flex";
+
+    // Ajouter un écouteur sur le bouton de redirection vers login.html
+    document.querySelector("#password-changed button").addEventListener("click", function () {
+        window.location.href = "/site/login.html";
+    });
 });

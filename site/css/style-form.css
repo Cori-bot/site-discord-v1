@@ -76,7 +76,8 @@ body {
 .signup-form,
 .request-code-form,
 .verify-code-form,
-.reset-password-form {
+.reset-password-form,
+.password-changed {
   font-family: "GG-extrabold";
   font-size: 12px;
   display: flex;
@@ -162,8 +163,8 @@ label {
 
 .custom-checkbox {
   display: inline-block;
-  width: 20px; 
-  height: 20px; 
+  width: 20px;
+  height: 20px;
   border: 1px solid #ccc;
   border-radius: 3px;
   margin-right: 10px;
@@ -186,11 +187,24 @@ label {
 }
 
 #signup-button:disabled {
-  opacity: 0.5; 
-  cursor: not-allowed; 
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 #signup-button {
-  opacity: 1; 
-  cursor: pointer; 
+  opacity: 1;
+  cursor: pointer;
+}
+
+.password-changed{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  color: #fff;
+}
+
+.password-changed h2{
+  font-family: "GG-semibold";
+  margin-bottom: 20px;
 }
