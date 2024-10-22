@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord-like Web App</title>
+    <link rel="stylesheet" href="/site/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="server-list">
+                <div class="server-icon active">D</div>
+                <div class="server-icon">+</div>
+            </div>
+            <div class="channel-list">
+                <h2>Canaux</h2>
+                <ul>
+                    <li><a href="#home" class="active"># Accueil</a></li>
+                    <li><a href="#news"># Actualités</a></li>
+                    <li><a href="#chat"># Discussion</a></li>
+                </ul>
+                <h2>Social</h2>
+                <ul>
+                    <li><a href="#friends"># Amis</a></li>
+                </ul>
+            </div>
+        </nav>
+        <main class="content">
+            <header class="top-bar">
+                <h1 id="current-channel"># Accueil</h1>
+                <div class="user-info">
+                    <img src="/assets/img/default-avatar.png" alt="Avatar" class="avatar">
+                    <span class="username">Utilisateur</span>
+                    <a href="#" id="logout" class="logout-btn">Déconnexion</a>
+                </div>
+            </header>
+            <div class="main-content">
+                <section id="home" class="active">
+                    <h2>Bienvenue sur notre application</h2>
+                    <p>Découvrez nos fonctionnalités inspirées de Discord !</p>
+                </section>
+                <section id="news">
+                    <h2>Actualités</h2>
+                    <div class="news-feed">
+                        <article>
+                            <h3>Nouvelle mise à jour</h3>
+                            <p>Découvrez les dernières fonctionnalités ajoutées à notre plateforme.</p>
+                        </article>
+                        <article>
+                            <h3>Événement communautaire</h3>
+                            <p>Rejoignez-nous pour notre prochain événement en ligne !</p>
+                        </article>
+                    </div>
+                </section>
+                <section id="chat">
+                    <div class="chat-container">
+                        <div class="chat-messages">
+                            <!-- Les messages s'afficheront ici -->
+                        </div>
+                        <form class="chat-input">
+                            <input type="text" placeholder="Envoyer un message...">
+                            <button type="submit">Envoyer</button>
+                        </form>
+                    </div>
+                </section>
+                <section id="friends">
+                    <h2>Liste d'amis</h2>
+                    <ul class="friend-list">
+                        <li><img src="/assets/img/default-avatar.png" alt="Avatar" class="avatar">Ami 1 <span class="status online"></span></li>
+                        <li><img src="/assets/img/default-avatar.png" alt="Avatar" class="avatar">Ami 2 <span class="status offline"></span></li>
+                        <li><img src="/assets/img/default-avatar.png" alt="Avatar" class="avatar">Ami 3 <span class="status idle"></span></li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="/site/js/app.js"></script>
+    <script>
+        if (!localStorage.getItem('authToken')) {
+            window.location.href = '/site/login.html';
+        }
+    </script>
+</body>
+</html>

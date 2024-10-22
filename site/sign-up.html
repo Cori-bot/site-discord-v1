@@ -1,70 +1,33 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <link rel="icon" href="/assets/img/discord-logo.ico" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Connexion / Inscription</title>
+    <title>Inscription</title>
     <link rel="stylesheet" href="/site/css/style-form.css" />
   </head>
   <body>
     <div class="box">
       <h2>Créer un compte</h2>
-      <br />
-      <form class="signup-form">
-        <label for="email">E-MAIL</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          autocomplete="new-email"
-        />
-
-        <label for="name">NOM D'UTILISATEUR</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          required
-          autocomplete="new-username"
-        />
-
-        <label for="password">MOT DE PASSE</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          required
-          autocomplete="new-password"
-        />
-
-      
-        <button type="submit" id="signup-button" disabled>S'inscrire</button>
-
-        <label class="terms-label">
-          <input type="checkbox" id="terms-checkbox" />
-          <span class="custom-checkbox"></span> J'ai lu et accepté les&nbsp;
-          <a href="#">Conditions d'Utilisation</a>
-        </label>
+      <form class="login-form" enctype="multipart/form-data">
+        <label for="username">NOM D'UTILISATEUR</label>
+        <input type="text" id="username" name="username" required />
         
-        <p>
-          Tu as déjà un compte ? <a href="/site/login.html">Se connecter</a>
-        </p>
+        <label for="email">E-MAIL</label>
+        <input type="email" id="email" name="email" required />
+        
+        <label for="password">MOT DE PASSE</label>
+        <input type="password" id="password" name="password" required />
+        
+        <label for="avatarButton">AVATAR</label>
+        <input type="file" id="avatar" name="avatar" accept="image/*" style="display: none;" />
+        <button type="button" id="avatarButton">Choisir un avatar</button>
+        <span id="avatarFileName">Aucun fichier choisi</span>
+        
+        <button type="submit">S'inscrire</button>
       </form>
+      <p>Déjà un compte ? <a href="/site/login.html">Se connecter</a></p>
     </div>
-    <a href="/index.html">
-      <button class="chargement">🔙Page de chargement</button>
-    </a>
-
-    <script>
-      // JavaScript pour activer/désactiver le bouton "S'inscrire" en fonction de la case à cocher
-      document
-        .getElementById("terms-checkbox")
-        .addEventListener("change", function () {
-          const signupButton = document.getElementById("signup-button");
-          signupButton.disabled = !this.checked;
-        });
-    </script>
+    <script src="/site/js/signup.js"></script>
   </body>
 </html>
