@@ -101,7 +101,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.classList.add('active');
             }
         });
-        document.getElementById(targetChannel).classList.add('active');
+        const targetChannelElement = document.getElementById(targetChannel);
+        targetChannelElement.classList.add('active');
+
+        // Mise à jour du titre de la page
+        let channelName = '';
+        const channelElement = document.querySelector(`[data-channel="${targetChannel}"]`);
+        if (channelElement) {
+            const isVoiceChannel = channelElement.querySelector('.fa-microphone');
+            channelName = channelElement.textContent.trim();
+            
+            if (isVoiceChannel) {
+                channelName = `🎙️ ${channelName}`;
+            } else if (targetChannel !== 'accueil' && targetChannel !== 'parametres') {
+                channelName = `📝 ${channelName}`;
+            }
+        } else {
+            // Fallback pour les canaux spéciaux
+            switch (targetChannel) {
+                case 'accueil':
+                    channelName = 'Accueil';
+                    break;
+                case 'parametres':
+                    channelName = 'Paramètres';
+                    break;
+                default:
+                    channelName = targetChannel; // Fallback si le canal n'est pas trouvé
+            }
+        }
+        document.title = `Template Discord | ${channelName}`;
     }
 
     document.querySelectorAll('.sidebar li[data-channel]').forEach(link => {
@@ -693,4 +721,11 @@ document.addEventListener('DOMContentLoaded', () => {
             searchSuggestions.style.display = 'none';
         }
     });
+
+    // Initialiser le titre de la page au chargement
+    const initialChannel = document.querySelector('.channel.active');
+    if (initialChannel) {
+        const channelId = initialChannel.id;
+        changeChannel(channelId);
+    }
 });
