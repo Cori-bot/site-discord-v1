@@ -36,21 +36,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const loggedOutSettings = document.getElementById('logged-out-settings');
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
+    const addFriendBtn = document.getElementById('add-friend-btn');
+    const addFriendModal = document.getElementById('add-friend-modal');
+    const addFriendConfirm = document.getElementById('add-friend-confirm');
+    const addFriendCancel = document.getElementById('add-friend-cancel');
+    const friendCodeInput = document.getElementById('friend-code-input');
+
+    function updateUIForLoginState() {
+        if (currentUser) {
+            addFriendBtn.style.display = 'block';
+            addFriendBtn.classList.remove('disabled');
+            addFriendBtn.style.pointerEvents = 'auto';
+            addFriendBtn.addEventListener('click', showAddFriendModal);
+        } else {
+            addFriendBtn.style.display = 'block';
+            addFriendBtn.classList.add('disabled');
+            addFriendBtn.style.pointerEvents = 'none';
+            addFriendBtn.removeEventListener('click', showAddFriendModal);
+        }
+    }
 
     function updateSettingsView() {
+        const friendRequestsSection = document.getElementById('friend-requests');
         if (currentUser) {
             loggedInSettings.style.display = 'block';
             loggedOutSettings.style.display = 'none';
+            friendRequestsSection.style.display = 'block';
             userInfoElement.querySelector('.avatar').src = currentUser.avatarPath || '/assets/img/default-avatar.png';
             userInfoElement.querySelector('.username').textContent = currentUser.username;
             document.getElementById('new-username').value = currentUser.username;
             document.getElementById('friend-code').textContent = currentUser.friendCode;
+            updateFriendRequests();
         } else {
             loggedInSettings.style.display = 'none';
             loggedOutSettings.style.display = 'block';
+            friendRequestsSection.style.display = 'none';
             userInfoElement.querySelector('.avatar').src = '/assets/img/default-avatar.png';
             userInfoElement.querySelector('.username').textContent = 'Utilisateur';
         }
+        updateUIForLoginState();
     }
 
     updateSettingsView();
@@ -78,20 +102,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         document.getElementById(targetChannel).classList.add('active');
-        if (targetChannel === 'parametres') {
-            onSettingsTabOpen();
-        }
     }
 
-    channelLinks.forEach(link => {
+    document.querySelectorAll('.sidebar li[data-channel]').forEach(link => {
         link.addEventListener('click', () => {
             const targetChannel = link.getAttribute('data-channel');
             changeChannel(targetChannel);
         });
     });
 
-    const accueilChannelLinks = document.querySelectorAll('#accueil .channel-list li[data-channel]');
-    accueilChannelLinks.forEach(link => {
+    document.querySelectorAll('#accueil .channel-list li[data-channel]').forEach(link => {
         link.addEventListener('click', () => {
             const targetChannel = link.getAttribute('data-channel');
             changeChannel(targetChannel);
@@ -101,19 +121,34 @@ document.addEventListener('DOMContentLoaded', () => {
     if (messageForm) {
         const messageFormContainer = messageForm.parentElement;
         
-        if (!currentUser) {
-            const overlay = document.createElement('div');
-            overlay.className = 'message-form-overlay';
-            overlay.innerHTML = `
-                <p>Veuillez vous connecter pour envoyer des messages.</p>
-                <button id="go-to-settings" class="settings-button">Aller aux paramètres</button>
-            `;
-            messageFormContainer.appendChild(overlay);
+        function updateMessageFormOverlay() {
+            const existingOverlay = messageFormContainer.querySelector('.message-form-overlay');
+            if (!currentUser) {
+                if (!existingOverlay) {
+                    const overlay = document.createElement('div');
+                    overlay.className = 'message-form-overlay';
+                    overlay.innerHTML = `
+                        <p>Veuillez vous connecter pour envoyer des messages.</p>
+                        <button id="go-to-settings" class="settings-button">Aller aux paramètres</button>
+                    `;
+                    messageFormContainer.appendChild(overlay);
 
-            const goToSettingsButton = overlay.querySelector('#go-to-settings');
-            goToSettingsButton.addEventListener('click', () => {
-                changeChannel('parametres');
-            });
+                    const goToSettingsButton = overlay.querySelector('#go-to-settings');
+                    goToSettingsButton.addEventListener('click', () => {
+                        changeChannel('parametres');
+                    });
+                }
+            } else if (existingOverlay) {
+                existingOverlay.remove();
+            }
+        }
+
+        updateMessageFormOverlay();
+
+        // Ajoutez cet appel de fonction chaque fois que l'état de connexion change
+        function updateUIForLoginState() {
+            // ... (le reste du code existant)
+            updateMessageFormOverlay();
         }
 
         messageForm.addEventListener('submit', (e) => {
@@ -256,15 +291,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const addFriendBtn = document.getElementById('add-friend-btn');
-    const addFriendModal = document.getElementById('add-friend-modal');
-    const addFriendConfirm = document.getElementById('add-friend-confirm');
-    const addFriendCancel = document.getElementById('add-friend-cancel');
-    const friendCodeInput = document.getElementById('friend-code-input');
+    function showAddFriendModal() {
+        if (currentUser) {
+            addFriendModal.style.display = 'block';
+        } else {
+            alert('Veuillez vous connecter pour ajouter des amis.');
+        }
+    }
 
-    addFriendBtn.addEventListener('click', () => {
-        addFriendModal.style.display = 'block';
-    });
+    addFriendBtn.addEventListener('click', showAddFriendModal);
 
     addFriendCancel.addEventListener('click', () => {
         addFriendModal.style.display = 'none';
@@ -274,13 +309,48 @@ document.addEventListener('DOMContentLoaded', () => {
     addFriendConfirm.addEventListener('click', () => {
         const friendCode = friendCodeInput.value.trim();
         if (friendCode) {
-            console.log(`Demande d'ami envoyée avec le code : ${friendCode}`);
+            sendFriendRequest(friendCode);
             addFriendModal.style.display = 'none';
             friendCodeInput.value = '';
         } else {
             alert('Veuillez entrer un code ami valide.');
         }
     });
+
+    function sendFriendRequest(friendCode) {
+        // Vérifier si le code ami est différent de celui de l'utilisateur actuel
+        if (friendCode === currentUser.friendCode) {
+            alert("Vous ne pouvez pas vous envoyer une demande d'ami à vous-même.");
+            return;
+        }
+
+        // Récupérer les demandes d'ami envoyées et reçues depuis le localStorage
+        let sentRequests = JSON.parse(localStorage.getItem('sentFriendRequests') || '[]');
+        let receivedRequests = JSON.parse(localStorage.getItem('receivedFriendRequests') || '[]');
+        
+        // Créer une nouvelle demande d'ami
+        const newRequest = {
+            id: Date.now().toString(),
+            senderUsername: currentUser.username,
+            senderCode: currentUser.friendCode,
+            receiverCode: friendCode
+        };
+        
+        // Ajouter la nouvelle demande à la liste des demandes envoyées de l'utilisateur actuel
+        sentRequests.push(newRequest);
+        
+        // Ajouter la nouvelle demande à la liste des demandes reçues du destinataire
+        receivedRequests.push(newRequest);
+        
+        // Sauvegarder les listes mises à jour dans le localStorage
+        localStorage.setItem('sentFriendRequests', JSON.stringify(sentRequests));
+        localStorage.setItem('receivedFriendRequests', JSON.stringify(receivedRequests));
+        
+        // Mettre à jour l'affichage des demandes d'ami
+        updateFriendRequests();
+        
+        alert(`Demande d'ami envoyée à l'utilisateur avec le code : ${friendCode}`);
+    }
 
     window.addEventListener('click', (event) => {
         if (event.target === addFriendModal) {
@@ -428,32 +498,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const sentRequestsList = document.getElementById('sent-requests-list');
         const receivedRequestsList = document.getElementById('received-requests-list');
         
-        // Simulons des demandes d'ami pour l'exemple
-        const sentRequests = [
-            { id: 1, username: 'Utilisateur1' },
-            { id: 2, username: 'Utilisateur2' }
-        ];
-        const receivedRequests = [
-            { id: 3, username: 'Utilisateur3' },
-            { id: 4, username: 'Utilisateur4' }
-        ];
+        let sentRequests = JSON.parse(localStorage.getItem('sentFriendRequests') || '[]');
+        let receivedRequests = JSON.parse(localStorage.getItem('receivedFriendRequests') || '[]');
 
         sentRequestsList.innerHTML = '';
         receivedRequestsList.innerHTML = '';
 
-        sentRequests.forEach(request => {
+        // Afficher les demandes envoyées par l'utilisateur actuel
+        sentRequests.filter(request => request.senderCode === currentUser.friendCode).forEach(request => {
             const li = document.createElement('li');
             li.innerHTML = `
-                ${request.username}
+                Utilisateur#${request.receiverCode}
                 <button class="cancel-request" data-id="${request.id}">Annuler</button>
             `;
             sentRequestsList.appendChild(li);
         });
 
-        receivedRequests.forEach(request => {
+        // Afficher les demandes reçues par l'utilisateur actuel
+        receivedRequests.filter(request => request.receiverCode === currentUser.friendCode).forEach(request => {
             const li = document.createElement('li');
             li.innerHTML = `
-                ${request.username}
+                ${request.senderUsername} (${request.senderCode})
                 <div>
                     <button class="accept-request" data-id="${request.id}">Accepter</button>
                     <button class="reject-request" data-id="${request.id}">Refuser</button>
@@ -462,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
             receivedRequestsList.appendChild(li);
         });
 
-        // Ajoutez des écouteurs d'événements pour les boutons
+        // Ajouter les écouteurs d'événements pour les boutons
         document.querySelectorAll('.cancel-request').forEach(button => {
             button.addEventListener('click', () => cancelRequest(button.dataset.id));
         });
@@ -477,26 +542,85 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function cancelRequest(id) {
-        console.log(`Demande d'ami annulée : ${id}`);
-        // Ajoutez ici la logique pour annuler la demande
-        updateFriendRequests();
+        let sentRequests = JSON.parse(localStorage.getItem('sentFriendRequests') || '[]');
+        let receivedRequests = JSON.parse(localStorage.getItem('receivedFriendRequests') || '[]');
+
+        // Trouver la demande à annuler
+        const cancelledRequest = sentRequests.find(request => request.id === id);
+
+        if (cancelledRequest) {
+            // Supprimer de la liste des demandes envoyées
+            sentRequests = sentRequests.filter(request => request.id !== id);
+
+            // Supprimer de la liste des demandes reçues
+            receivedRequests = receivedRequests.filter(request => 
+                !(request.friendCode === currentUser.friendCode && request.username === currentUser.username)
+            );
+
+            // Mettre à jour le localStorage
+            localStorage.setItem('sentFriendRequests', JSON.stringify(sentRequests));
+            localStorage.setItem('receivedFriendRequests', JSON.stringify(receivedRequests));
+
+            // Mettre à jour l'affichage
+            updateFriendRequests();
+        }
     }
 
     function acceptRequest(id) {
-        console.log(`Demande d'ami acceptée : ${id}`);
-        // Ajoutez ici la logique pour accepter la demande
+        let receivedRequests = JSON.parse(localStorage.getItem('receivedFriendRequests') || '[]');
+        let sentRequests = JSON.parse(localStorage.getItem('sentFriendRequests') || '[]');
+        let friends = JSON.parse(localStorage.getItem('friends') || '[]');
+        
+        const acceptedRequest = receivedRequests.find(request => request.id === id);
+        if (acceptedRequest) {
+            // Ajouter l'ami à la liste d'amis
+            friends.push(acceptedRequest);
+            
+            // Supprimer la demande reçue
+            receivedRequests = receivedRequests.filter(request => request.id !== id);
+            
+            // Supprimer la demande envoyée correspondante
+            sentRequests = sentRequests.filter(request => 
+                !(request.id === id || (request.senderCode === acceptedRequest.senderCode && request.receiverCode === currentUser.friendCode))
+            );
+            
+            // Mettre à jour le localStorage
+            localStorage.setItem('friends', JSON.stringify(friends));
+            localStorage.setItem('receivedFriendRequests', JSON.stringify(receivedRequests));
+            localStorage.setItem('sentFriendRequests', JSON.stringify(sentRequests));
+        }
+        
         updateFriendRequests();
+        // Vous pouvez ajouter ici une fonction pour mettre à jour la liste des amis si nécessaire
     }
 
     function rejectRequest(id) {
-        console.log(`Demande d'ami refusée : ${id}`);
-        // Ajoutez ici la logique pour refuser la demande
+        let receivedRequests = JSON.parse(localStorage.getItem('receivedFriendRequests') || '[]');
+        let sentRequests = JSON.parse(localStorage.getItem('sentFriendRequests') || '[]');
+        
+        const rejectedRequest = receivedRequests.find(request => request.id === id);
+        if (rejectedRequest) {
+            // Supprimer la demande reçue
+            receivedRequests = receivedRequests.filter(request => request.id !== id);
+            
+            // Supprimer la demande envoyée correspondante
+            sentRequests = sentRequests.filter(request => 
+                !(request.id === id || (request.senderCode === rejectedRequest.senderCode && request.receiverCode === currentUser.friendCode))
+            );
+            
+            // Mettre à jour le localStorage
+            localStorage.setItem('receivedFriendRequests', JSON.stringify(receivedRequests));
+            localStorage.setItem('sentFriendRequests', JSON.stringify(sentRequests));
+        }
+        
         updateFriendRequests();
     }
 
     // Appelez cette fonction lorsque l'onglet paramètres est ouvert
     function onSettingsTabOpen() {
-        updateFriendRequests();
+        if (currentUser) {
+            updateFriendRequests();
+        }
     }
 
     const searchInput = document.querySelector('.search');

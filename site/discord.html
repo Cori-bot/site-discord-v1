@@ -9,7 +9,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
   </head>
   <body>
@@ -43,7 +46,11 @@
           <button id="add-friend-btn" class="add-friend-btn">
             <i class="fas fa-user-plus"></i>
           </button>
-          <img src="/assets/img/default-avatar.png" alt="Avatar" class="avatar" />
+          <img
+            src="/assets/img/default-avatar.png"
+            alt="Avatar"
+            class="avatar"
+          />
           <span class="username">Utilisateur</span>
         </div>
       </div>
@@ -99,18 +106,32 @@
         <div id="parametres" class="channel">
           <h2>Paramètres</h2>
           <div class="settings-container">
-            <div id="logged-in-settings" style="display: none;">
+            <div id="logged-in-settings" style="display: none">
               <form id="settings-form">
                 <div class="settings-box">
                   <label for="new-username">Nouveau pseudo :</label>
-                  <input type="text" id="new-username" name="new-username">
+                  <input type="text" id="new-username" name="new-username" />
                 </div>
                 <div class="settings-box">
                   <label for="new-avatar">Nouvel avatar :</label>
-                  <p class="avatar-hint">Image carrée recommandée. ex : 100x100px</p>
+                  <p class="avatar-hint">
+                    Image carrée recommandée. ex : 100x100px
+                  </p>
                   <div class="avatar-input-wrapper">
-                    <input type="file" id="new-avatar" name="new-avatar" accept="image/*" style="display: none;">
-                    <button type="button" id="avatar-button" class="settings-button">Choisir un avatar</button>
+                    <input
+                      type="file"
+                      id="new-avatar"
+                      name="new-avatar"
+                      accept="image/*"
+                      style="display: none"
+                    />
+                    <button
+                      type="button"
+                      id="avatar-button"
+                      class="settings-button"
+                    >
+                      Choisir un avatar
+                    </button>
                     <span id="avatar-file-name">Aucun fichier choisi</span>
                   </div>
                 </div>
@@ -120,18 +141,32 @@
                       <label>Votre code ami :</label>
                       <span id="friend-code" title="Cliquez pour copier"></span>
                     </div>
-                    <span id="copy-confirmation" class="copy-confirmation"></span>
+                    <span
+                      id="copy-confirmation"
+                      class="copy-confirmation"
+                    ></span>
                   </div>
                 </div>
-                <button type="submit" class="settings-button">Enregistrer</button>
+                <button type="submit" class="settings-button">
+                  Enregistrer
+                </button>
               </form>
-              <button id="logout-button" class="settings-button">Déconnexion</button>
+              <button id="logout-button" class="settings-button">
+                Déconnexion
+              </button>
             </div>
-            <div id="logged-out-settings" style="display: none;">
+            <div id="logged-out-settings" style="display: none">
               <p class="not-connected-message">Vous n'êtes pas connecté.</p>
-              <p>Veuillez vous connecter ou créer un compte pour accéder à toutes les fonctionnalités.</p>
-              <button id="login-button" class="settings-button large-button">Se connecter</button>
-              <button id="signup-button" class="settings-button large-button">Créer un compte</button>
+              <p>
+                Veuillez vous connecter ou créer un compte pour accéder à toutes
+                les fonctionnalités.
+              </p>
+              <button id="login-button" class="settings-button large-button">
+                Se connecter
+              </button>
+              <button id="signup-button" class="settings-button large-button">
+                Créer un compte
+              </button>
             </div>
             <div id="friend-requests" class="friend-requests-section">
               <h3>Demandes d'ami</h3>
@@ -156,10 +191,14 @@
       <div class="modal-content">
         <h2>Ajouter un ami</h2>
         <p>Entrez le code ami de l'utilisateur que vous souhaitez ajouter :</p>
-        <input type="text" id="friend-code-input" placeholder="Code ami">
+        <input type="text" id="friend-code-input" placeholder="Code ami" />
         <div class="modal-buttons">
-          <button id="add-friend-confirm" class="settings-button">Ajouter</button>
-          <button id="add-friend-cancel" class="settings-button">Annuler</button>
+          <button id="add-friend-confirm" class="settings-button">
+            Ajouter
+          </button>
+          <button id="add-friend-cancel" class="settings-button">
+            Annuler
+          </button>
         </div>
       </div>
     </div>
@@ -167,18 +206,20 @@
     <div id="avatar-modal" class="modal">
       <div class="modal-content avatar-modal-content">
         <span class="close">&times;</span>
-        <img id="enlarged-avatar" src="" alt="Avatar agrandi">
+        <img id="enlarged-avatar" src="" alt="Avatar agrandi" />
       </div>
     </div>
     <!-- Ajoutez ceci juste avant la fermeture de la balise body -->
     <div id="user-info-modal" class="modal">
       <div class="modal-content user-info-modal-content">
         <span class="close">&times;</span>
-        <img id="modal-avatar" src="" alt="Avatar de l'utilisateur">
+        <img id="modal-avatar" src="" alt="Avatar de l'utilisateur" />
         <h2 id="modal-username"></h2>
         <div class="friend-code-container">
           <p>Code ami : <span id="modal-friend-code"></span></p>
-          <button id="copy-friend-code" class="settings-button">Copier le code ami</button>
+          <button id="copy-friend-code" class="settings-button">
+            Copier le code ami
+          </button>
         </div>
       </div>
     </div>
@@ -186,9 +227,16 @@
       <div class="modal-content crop-modal-content">
         <span class="close">&times;</span>
         <div class="crop-container">
-          <img id="crop-image" src="" alt="Image à rogner">
+          <img id="crop-image" src="" alt="Image à rogner" />
         </div>
-        <input type="range" id="zoom-slider" min="0.1" max="3" step="0.1" value="1">
+        <input
+          type="range"
+          id="zoom-slider"
+          min="0.1"
+          max="3"
+          step="0.1"
+          value="1"
+        />
         <button id="crop-confirm" class="settings-button">Confirmer</button>
       </div>
     </div>
