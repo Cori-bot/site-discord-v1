@@ -1,86 +1,66 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord-like Web App</title>
-    <link rel="stylesheet" href="/site/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        <nav class="sidebar">
-            <div class="server-list">
-                <div class="server-icon active">D</div>
-                <div class="server-icon">+</div>
-            </div>
-            <div class="channel-list">
-                <h2>Canaux</h2>
-                <ul>
-                    <li><a href="#home" class="active"># Accueil</a></li>
-                    <li><a href="#news"># Actualités</a></li>
-                    <li><a href="#chat"># Discussion</a></li>
-                </ul>
-                <h2>Social</h2>
-                <ul>
-                    <li><a href="#friends"># Amis</a></li>
-                </ul>
-            </div>
-        </nav>
-        <main class="content">
-            <header class="top-bar">
-                <h1 id="current-channel"># Accueil</h1>
-                <div class="user-info">
-                    <img src="/assets/img/default-avatar.png" alt="Avatar" class="avatar">
-                    <span class="username">Utilisateur</span>
-                    <a href="#" id="logout" class="logout-btn">Déconnexion</a>
-                </div>
-            </header>
-            <div class="main-content">
-                <section id="home" class="active">
-                    <h2>Bienvenue sur notre application</h2>
-                    <p>Découvrez nos fonctionnalités inspirées de Discord !</p>
-                </section>
-                <section id="news">
-                    <h2>Actualités</h2>
-                    <div class="news-feed">
-                        <article>
-                            <h3>Nouvelle mise à jour</h3>
-                            <p>Découvrez les dernières fonctionnalités ajoutées à notre plateforme.</p>
-                        </article>
-                        <article>
-                            <h3>Événement communautaire</h3>
-                            <p>Rejoignez-nous pour notre prochain événement en ligne !</p>
-                        </article>
-                    </div>
-                </section>
-                <section id="chat">
-                    <div class="chat-container">
-                        <div class="chat-messages">
-                            <!-- Les messages s'afficheront ici -->
-                        </div>
-                        <form class="chat-input">
-                            <input type="text" placeholder="Envoyer un message...">
-                            <button type="submit">Envoyer</button>
-                        </form>
-                    </div>
-                </section>
-                <section id="friends">
-                    <h2>Liste d'amis</h2>
-                    <ul class="friend-list">
-                        <li><img src="/assets/img/default-avatar.png" alt="Avatar" class="avatar">Ami 1 <span class="status online"></span></li>
-                        <li><img src="/assets/img/default-avatar.png" alt="Avatar" class="avatar">Ami 2 <span class="status offline"></span></li>
-                        <li><img src="/assets/img/default-avatar.png" alt="Avatar" class="avatar">Ami 3 <span class="status idle"></span></li>
-                    </ul>
-                </section>
-            </div>
-        </main>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Site Style Discord</title>
+    <link rel="stylesheet" href="/site/css/discord-style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="sidebar">
+      <ul>
+        <li data-channel="accueil"><i class="fas fa-user-friends"></i>Accueil</li>
+        <li data-channel="general"><i class="fas fa-hashtag"></i>Général</li>
+        <li data-channel="vocal"><i class="fas fa-microphone"></i>Vocal 1</li>
+        <li data-channel="parametres"><i class="fas fa-cog"></i>Paramètres</li>
+      </ul>
     </div>
-    <script src="/site/js/app.js"></script>
-    <script>
-        if (!localStorage.getItem('authToken')) {
-            window.location.href = '/site/login.html';
-        }
-    </script>
-</body>
+    <div class="content">
+      <div class="navbar">
+        <input type="text" class="search" placeholder="Rechercher..." />
+        <div class="user-info">
+          <img src="/assets/img/default-avatar.png" alt="Avatar" class="avatar">
+          <span class="username">Utilisateur</span>
+          <a href="#" id="logout" class="logout-btn">Déconnexion</a>
+        </div>
+      </div>
+      <div class="chat-container">
+        <div id="accueil" class="channel active">
+          <h2>Bienvenue sur le serveur</h2>
+          <p>Choisissez un canal pour commencer à discuter.</p>
+        </div>
+        <div id="general" class="channel">
+          <div class="chat-messages">
+            <div class="chat-bubble">Salut! Bienvenue sur notre serveur.</div>
+            <div class="chat-bubble user">Merci! Heureux d'être ici.</div>
+            <div class="chat-bubble">Si tu as des questions, n'hésite pas!</div>
+          </div>
+          <form class="message-form">
+            <input type="text" placeholder="Envoyer un message..." />
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+        <div id="vocal" class="channel">
+          <h2>Canal vocal</h2>
+          <p>Fonctionnalité en cours de développement...</p>
+        </div>
+        <div id="parametres" class="channel">
+          <h2>Paramètres</h2>
+          <form id="settings-form">
+            <label for="theme">Thème :</label>
+            <select id="theme">
+              <option value="light">Clair</option>
+              <option value="dark">Sombre</option>
+            </select>
+            <button type="submit">Enregistrer</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="/site/js/discord.js"></script>
+  </body>
 </html>

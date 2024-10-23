@@ -196,7 +196,7 @@ label {
   cursor: pointer;
 }
 
-.password-changed{
+.password-changed {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -204,7 +204,19 @@ label {
   color: #fff;
 }
 
-.password-changed h2{
+.password-changed h2 {
   font-family: "GG-semibold";
   margin-bottom: 20px;
+}
+
+#avatarButton {
+  margin-bottom: 20px;
+}
+
+#avatarFileName {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 30px;
+  font-size: 0.9em;
+  color: white;
 }

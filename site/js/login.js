@@ -7,13 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Vérification basique des identifiants (à remplacer par une vérification côté serveur dans un environnement de production)
-        if (email === 'm@m' && password === '123') {
-            // Stockage d'un token factice (à remplacer par un vrai token d'authentification)
-            localStorage.setItem('authToken', 'fakeToken123');
-            window.location.href = '/site/main.html';
-        } else {
-            alert('Identifiants incorrects. Veuillez réessayer.');
+        try {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                window.location.href = '/site/discord.html';
+            } else {
+                alert('Identifiants incorrects. Veuillez réessayer.');
+            }
+        } catch (error) {
+            console.error('Erreur lors de la connexion:', error);
+            alert('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
         }
     });
 });
