@@ -6,6 +6,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsForm = document.getElementById('settings-form');
     const userInfoElement = document.querySelector('.user-info');
 
+    let messageCount = 0;
+    const messageInterval = 5; // Envoyer un message système tous les 5 messages utilisateur
+    const systemMessages = [
+        "N'oubliez pas de rester courtois dans vos échanges !",
+        "Vous pouvez utiliser /help pour voir la liste des commandes disponibles.",
+        "Pensez à inviter vos amis sur le serveur !",
+        "Si vous avez des suggestions pour améliorer le serveur, n'hésitez pas à en faire part aux modérateurs.",
+        "Amusez-vous bien sur notre serveur !"
+    ];
+
+    function sendSystemMessage() {
+        const randomMessage = systemMessages[Math.floor(Math.random() * systemMessages.length)];
+        const newMessage = document.createElement('div');
+        newMessage.classList.add('chat-bubble', 'system');
+        newMessage.innerHTML = `
+            <img src="/assets/img/discord-logo.png" alt="Discord Logo" class="message-avatar">
+            <div class="message-content">
+                <span class="message-username">Système</span>
+                <span class="message-text">${randomMessage}</span>
+            </div>
+        `;
+        chatMessages.appendChild(newMessage);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
     // Charger les informations de l'utilisateur
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (currentUser) {
@@ -165,28 +190,3 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/site/login.html';
     }
 });
-
-let messageCount = 0;
-const messageInterval = 5; // Envoyer un message système tous les 5 messages utilisateur
-const systemMessages = [
-    "N'oubliez pas de rester courtois dans vos échanges !",
-    "Vous pouvez utiliser /help pour voir la liste des commandes disponibles.",
-    "Pensez à inviter vos amis sur le serveur !",
-    "Si vous avez des suggestions pour améliorer le serveur, n'hésitez pas à en faire part aux modérateurs.",
-    "Amusez-vous bien sur notre serveur !"
-];
-
-function sendSystemMessage() {
-    const randomMessage = systemMessages[Math.floor(Math.random() * systemMessages.length)];
-    const newMessage = document.createElement('div');
-    newMessage.classList.add('chat-bubble', 'system');
-    newMessage.innerHTML = `
-        <img src="/assets/img/discord-logo.png" alt="Discord Logo" class="message-avatar">
-        <div class="message-content">
-            <span class="message-username">Système</span>
-            <span class="message-text">${randomMessage}</span>
-        </div>
-    `;
-    chatMessages.appendChild(newMessage);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
