@@ -40,6 +40,26 @@ document.addEventListener('DOMContentLoaded', () => {
             this.src = '/assets/img/default-avatar.png';
         };
         userInfoElement.querySelector('.username').textContent = currentUser.username;
+
+        // Afficher le code ami dans l'onglet des paramètres
+        const friendCodeElement = document.getElementById('friend-code');
+        const copyConfirmation = document.getElementById('copy-confirmation');
+        if (friendCodeElement) {
+            friendCodeElement.textContent = currentUser.friendCode;
+            
+            // Ajouter la fonctionnalité de copie
+            friendCodeElement.addEventListener('click', () => {
+                navigator.clipboard.writeText(currentUser.friendCode).then(() => {
+                    copyConfirmation.textContent = 'Votre code ami a été copié';
+                    copyConfirmation.style.opacity = '1';
+                    setTimeout(() => {
+                        copyConfirmation.style.opacity = '0';
+                    }, 2000);
+                }, (err) => {
+                    console.error('Erreur lors de la copie du code ami: ', err);
+                });
+            });
+        }
     }
 
     // Fonction pour changer de canal
@@ -189,4 +209,40 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!currentUser) {
         window.location.href = '/site/login.html';
     }
+
+    const addFriendBtn = document.getElementById('add-friend-btn');
+    const addFriendModal = document.getElementById('add-friend-modal');
+    const addFriendConfirm = document.getElementById('add-friend-confirm');
+    const addFriendCancel = document.getElementById('add-friend-cancel');
+    const friendCodeInput = document.getElementById('friend-code-input');
+
+    addFriendBtn.addEventListener('click', () => {
+        addFriendModal.style.display = 'block';
+    });
+
+    addFriendCancel.addEventListener('click', () => {
+        addFriendModal.style.display = 'none';
+        friendCodeInput.value = '';
+    });
+
+    addFriendConfirm.addEventListener('click', () => {
+        const friendCode = friendCodeInput.value.trim();
+        if (friendCode) {
+            // Ici, vous pouvez implémenter la logique pour ajouter un ami
+            console.log(`Demande d'ami envoyée avec le code : ${friendCode}`);
+            // Pour cet exemple, nous allons simplement fermer la modal
+            addFriendModal.style.display = 'none';
+            friendCodeInput.value = '';
+        } else {
+            alert('Veuillez entrer un code ami valide.');
+        }
+    });
+
+    // Fermer la modal si l'utilisateur clique en dehors
+    window.addEventListener('click', (event) => {
+        if (event.target === addFriendModal) {
+            addFriendModal.style.display = 'none';
+            friendCodeInput.value = '';
+        }
+    });
 });

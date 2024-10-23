@@ -16,6 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    function generateUniqueFriendCode(existingCodes) {
+        let friendCode;
+        do {
+            friendCode = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+        } while (existingCodes.includes(friendCode));
+        return friendCode;
+    }
+
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -28,8 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const userId = Date.now().toString();
             const userFolder = `users/${userId}`;
             
-            // Simulation de la création du dossier utilisateur
-            console.log(`Dossier utilisateur créé : ${userFolder}`);
+            // Récupérer les codes ami existants
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            const existingCodes = users.map(user => user.friendCode);
+
+            // Génération d'un code ami unique
+            const friendCode = generateUniqueFriendCode(existingCodes);
 
             // Gestion de l'avatar
             let avatarPath = '/assets/img/default-avatar.png';
@@ -44,10 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 email,
                 password, // Note: Dans un vrai système, le mot de passe devrait être haché
                 avatarPath,
+                friendCode
             };
 
             // Enregistrement des données utilisateur dans le stockage local
-            let users = JSON.parse(localStorage.getItem('users') || '[]');
             users.push(userData);
             localStorage.setItem('users', JSON.stringify(users));
 

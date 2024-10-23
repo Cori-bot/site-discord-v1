@@ -1,21 +1,21 @@
 /* Définition des polices personnalisées */
 @font-face {
-  font-family: 'gg sans';
-  src: url('/assets/fonts/ggsans-Medium.woff2') format('woff2');
+  font-family: "gg sans";
+  src: url("/assets/fonts/ggsans-Medium.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'gg sans';
-  src: url('/assets/fonts/ggsans-Semibold.woff2') format('woff2');
+  font-family: "gg sans";
+  src: url("/assets/fonts/ggsans-Semibold.woff2") format("woff2");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'gg sans';
-  src: url('/assets/fonts/ggsans-Extrabold.woff2') format('woff2');
+  font-family: "gg sans";
+  src: url("/assets/fonts/ggsans-Extrabold.woff2") format("woff2");
   font-weight: 800;
   font-style: normal;
 }
@@ -161,8 +161,8 @@ body {
 }
 
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 40px; /* Augmenté de 32px à 40px */
+  height: 40px; /* Augmenté de 32px à 40px */
   border-radius: 50%;
   margin-right: 10px;
   border: 2px solid var(--avatar-border);
@@ -184,7 +184,9 @@ body {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  height: calc(100% - 60px); /* Hauteur totale moins la hauteur de la barre de navigation */
+  height: calc(
+    100% - 60px
+  ); /* Hauteur totale moins la hauteur de la barre de navigation */
 }
 
 .chat-bubble {
@@ -227,7 +229,9 @@ body {
 }
 
 /* Styles spécifiques pour les canaux accueil, vocal et paramètres */
-#accueil, #vocal, #parametres {
+#accueil,
+#vocal,
+#parametres {
   padding: 30px; /* Un padding plus grand pour ces canaux spécifiques */
 }
 
@@ -338,7 +342,7 @@ body {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 34px;
 }
 
@@ -350,7 +354,7 @@ body {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 50%;
 }
 
@@ -415,11 +419,18 @@ body.light .fa-moon {
   color: #34495e;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 800; /* Utilise la version Extrabold pour les titres */
 }
 
-.sidebar ul li, .username, .message-username {
+.sidebar ul li,
+.username,
+.message-username {
   font-weight: bold; /* Utilise la version Semibold pour ces éléments */
 }
 
@@ -468,3 +479,132 @@ h1, h2, h3, h4, h5, h6 {
 .channel-list li:hover i {
   color: var(--text-color);
 }
+
+.add-friend-btn {
+  background-color: var(--accent);
+  color: var(--text-color);
+  border: none;
+  border-radius: 50%;
+  width: 36px; /* Légèrement augmenté */
+  height: 36px; /* Légèrement augmenté */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 50px; /* Augmenté de 30px à 50px */
+  transition: background-color 0.3s;
+}
+
+.add-friend-btn:hover {
+  background-color: #4752c4;
+}
+
+.friend-code-container {
+  margin-top: 15px;
+}
+
+.friend-code-display {
+  padding: 10px;
+  background-color: var(--secondary-bg);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#friend-code {
+  font-weight: bold;
+  color: var(--accent);
+  cursor: pointer;
+  transition: opacity 0.3s;
+  flex-grow: 1;
+  text-align: center;
+}
+
+#friend-code:hover {
+  opacity: 0.8;
+}
+
+.copy-confirmation {
+  display: block;
+  font-size: 0.8em;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.3s;
+  margin-top: 5px;
+  min-height: 1.5em; /* Augmenté de 1.2em à 1.5em */
+  line-height: 1.5em; /* Ajout de cette ligne pour garantir une hauteur constante */
+}
+
+/* Ajoutez ceci à la fin du fichier */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow-y: auto; /* Permet le défilement si le contenu est trop grand */
+}
+
+.modal-content {
+  background-color: var(--primary-bg);
+  margin: 5% auto; /* Réduit la marge supérieure pour les petits écrans */
+  padding: 20px;
+  border-radius: 5px;
+  width: 90%; /* Utilise un pourcentage pour la largeur */
+  max-width: 600px; /* Limite la largeur maximale */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  margin-bottom: 15px;
+}
+
+.modal-content p {
+  margin-bottom: 15px;
+  line-height: 1.4; /* Améliore la lisibilité */
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.modal-buttons button {
+  flex: 1; /* Les boutons prennent une largeur égale */
+  min-width: 100px; /* Assure une largeur minimale pour les boutons */
+}
+
+/* Ajoutez ces media queries pour la responsivité */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 10% auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-buttons {
+    flex-direction: column;
+  }
+  
+  .modal-buttons button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+

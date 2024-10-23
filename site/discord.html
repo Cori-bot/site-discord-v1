@@ -13,7 +13,9 @@
   <body>
     <div class="sidebar">
       <ul class="sidebar-top">
-        <li data-channel="accueil" class="active"><i class="fas fa-home"></i>Accueil</li>
+        <li data-channel="accueil" class="active">
+          <i class="fas fa-home"></i>Accueil
+        </li>
       </ul>
       <ul class="sidebar-channels">
         <li class="channel-category">Canaux textuels</li>
@@ -29,7 +31,14 @@
       <div class="navbar">
         <input type="text" class="search" placeholder="Rechercher..." />
         <div class="user-info">
-          <img src="/assets/img/default-avatar.png" alt="Avatar" class="avatar">
+          <button id="add-friend-btn" class="add-friend-btn">
+            <i class="fas fa-user-plus"></i>
+          </button>
+          <img
+            src="/assets/img/default-avatar.png"
+            alt="Avatar"
+            class="avatar"
+          />
           <span class="username">Utilisateur</span>
         </div>
       </div>
@@ -40,14 +49,18 @@
             <div class="channels-box text-channels">
               <h3>Canaux textuels</h3>
               <ul class="channel-list">
-                <li data-channel="general"><i class="fas fa-hashtag"></i> Général</li>
+                <li data-channel="general">
+                  <i class="fas fa-hashtag"></i> Général
+                </li>
                 <!-- Ajoutez d'autres canaux textuels ici si nécessaire -->
               </ul>
             </div>
             <div class="channels-box voice-channels">
               <h3>Canaux vocaux</h3>
               <ul class="channel-list">
-                <li data-channel="vocal"><i class="fas fa-microphone"></i> Vocal</li>
+                <li data-channel="vocal">
+                  <i class="fas fa-microphone"></i> Vocal
+                </li>
                 <!-- Ajoutez d'autres canaux vocaux ici si nécessaire -->
               </ul>
             </div>
@@ -56,10 +69,16 @@
         <div id="general" class="channel">
           <div class="chat-messages">
             <div class="chat-bubble system">
-              <img src="/assets/img/discord-logo.png" alt="Discord Logo" class="message-avatar">
+              <img
+                src="/assets/img/discord-logo.png"
+                alt="Discord Logo"
+                class="message-avatar"
+              />
               <div class="message-content">
                 <span class="message-username">Système</span>
-                <span class="message-text">Salut! Bienvenue sur notre serveur.</span>
+                <span class="message-text"
+                  >Salut! Bienvenue sur notre serveur.</span
+                >
               </div>
             </div>
           </div>
@@ -78,18 +97,33 @@
             <label for="theme" class="theme-label">
               <i class="fas fa-moon"></i>
               <div class="theme-switch">
-                <input type="checkbox" id="theme">
+                <input type="checkbox" id="theme" />
                 <span class="slider"></span>
               </div>
               <i class="fas fa-sun"></i>
             </label>
             <label for="new-username">Nouveau pseudo :</label>
-            <input type="text" id="new-username" name="new-username">
+            <input type="text" id="new-username" name="new-username" />
             <label for="new-avatar">Nouvel avatar :</label>
             <div class="avatar-input-wrapper">
-              <input type="file" id="new-avatar" name="new-avatar" accept="image/*" style="display: none;">
-              <button type="button" id="avatar-button" class="settings-button">Choisir un avatar</button>
+              <input
+                type="file"
+                id="new-avatar"
+                name="new-avatar"
+                accept="image/*"
+                style="display: none"
+              />
+              <button type="button" id="avatar-button" class="settings-button">
+                Choisir un avatar
+              </button>
               <span id="avatar-file-name">Aucun fichier choisi</span>
+            </div>
+            <div class="friend-code-container">
+              <div class="friend-code-display">
+                <label>Votre code ami :</label>
+                <span id="friend-code" title="Cliquez pour copier"></span>
+              </div>
+              <span id="copy-confirmation" class="copy-confirmation"></span>
             </div>
             <button type="submit" class="settings-button">Enregistrer</button>
           </form>
@@ -97,5 +131,24 @@
       </div>
     </div>
     <script src="/site/js/discord.js"></script>
+    <!-- Ajoutez ceci juste avant la fermeture de la balise body -->
+    <div id="add-friend-modal" class="modal">
+      <div class="modal-content">
+        <h2>Ajouter un ami</h2>
+        <p>Entrez le code ami de l'utilisateur que vous souhaitez ajouter :</p>
+        <input type="text" id="friend-code-input" placeholder="Code ami">
+        <div class="modal-buttons">
+          <button id="add-friend-confirm" class="settings-button">Ajouter</button>
+          <button id="add-friend-cancel" class="settings-button">Annuler</button>
+        </div>
+      </div>
+    </div>
+    <!-- Ajoutez ceci juste avant la fermeture de la balise body -->
+    <div id="avatar-modal" class="modal">
+      <div class="modal-content avatar-modal-content">
+        <span class="close">&times;</span>
+        <img id="enlarged-avatar" src="" alt="Avatar agrandi">
+      </div>
+    </div>
   </body>
 </html>
