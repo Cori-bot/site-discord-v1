@@ -936,3 +936,96 @@ h6 {
 .friend-requests-section button:hover {
   background-color: #4752c4;
 }
+
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--input-bg);
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+}
+
+.search-suggestion {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-suggestion:hover {
+    background-color: var(--primary-bg);
+}
+
+.search-suggestion i {
+    margin-right: 10px;
+}
+
+.navbar {
+    position: relative;
+}
+
+.navbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-container {
+    position: relative;
+    flex-grow: 1;
+    margin: 0 20px;
+    max-width: 500px; /* Ajoutez cette ligne */
+    width: 100%; /* Ajoutez cette ligne */
+}
+
+.search {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px 5px 0 0; /* Modifiez cette ligne */
+    border: none;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0; /* Modifiez cette ligne */
+    right: 0; /* Modifiez cette ligne */
+    transform: none; /* Supprimez la transformation */
+    width: 100%; /* Modifiez cette ligne */
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--input-bg);
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+    border-radius: 0 0 5px 5px;
+}
+
+.search-suggestion {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-suggestion:hover {
+    background-color: var(--primary-bg);
+}
+
+.search-suggestion i {
+    margin-right: 10px;
+}
+
+/* Ajoutez cette nouvelle règle */
+.search:focus {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}

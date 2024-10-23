@@ -498,4 +498,75 @@ document.addEventListener('DOMContentLoaded', () => {
     function onSettingsTabOpen() {
         updateFriendRequests();
     }
+
+    const searchInput = document.querySelector('.search');
+    const searchSuggestions = document.createElement('div');
+    searchSuggestions.className = 'search-suggestions';
+    searchInput.parentNode.appendChild(searchSuggestions);
+
+    // Ajoutez cette fonction pour normaliser les chaînes de caractères
+    function normalizeString(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function getChannels() {
+        const textChannels = Array.from(document.querySelectorAll('.sidebar-channels li[data-channel]'))
+            .filter(channel => !channel.querySelector('.fa-microphone'))
+            .map(channel => ({
+                name: channel.textContent.trim(),
+                normalizedName: normalizeString(channel.textContent.trim().toLowerCase()),
+                type: 'text',
+                id: channel.getAttribute('data-channel')
+            }));
+
+        const voiceChannels = Array.from(document.querySelectorAll('.sidebar-channels li[data-channel]'))
+            .filter(channel => channel.querySelector('.fa-microphone'))
+            .map(channel => ({
+                name: channel.textContent.trim(),
+                normalizedName: normalizeString(channel.textContent.trim().toLowerCase()),
+                type: 'voice',
+                id: channel.getAttribute('data-channel')
+            }));
+
+        return [...textChannels, ...voiceChannels];
+    }
+
+    function showSuggestions(suggestions) {
+        searchSuggestions.innerHTML = '';
+        suggestions.forEach(suggestion => {
+            const div = document.createElement('div');
+            div.className = 'search-suggestion';
+            div.innerHTML = `
+                <i class="fas ${suggestion.type === 'text' ? 'fa-hashtag' : 'fa-microphone'}"></i>
+                ${suggestion.name}
+            `;
+            div.addEventListener('click', () => {
+                changeChannel(suggestion.id);
+                searchInput.value = '';
+                searchSuggestions.style.display = 'none';
+            });
+            searchSuggestions.appendChild(div);
+        });
+        searchSuggestions.style.display = suggestions.length > 0 ? 'block' : 'none';
+    }
+
+    searchInput.addEventListener('focus', () => {
+        const channels = getChannels();
+        showSuggestions(channels);
+    });
+
+    searchInput.addEventListener('input', () => {
+        const query = normalizeString(searchInput.value.toLowerCase());
+        const channels = getChannels();
+        const filteredChannels = channels.filter(channel => 
+            channel.normalizedName.includes(query)
+        );
+        showSuggestions(filteredChannels);
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+            searchSuggestions.style.display = 'none';
+        }
+    });
 });
