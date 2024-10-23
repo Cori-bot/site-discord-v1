@@ -96,40 +96,54 @@
         </div>
         <div id="parametres" class="channel">
           <h2>Paramètres</h2>
-          <div id="logged-in-settings" style="display: none;">
-            <form id="settings-form">
-              
-              <div class="settings-box">
-                <label for="new-username">Nouveau pseudo :</label>
-                <input type="text" id="new-username" name="new-username">
-              </div>
-              <div class="settings-box">
-                <label for="new-avatar">Nouvel avatar :</label>
-                <p class="avatar-hint">Image carrée recommandée. ex : 100x100px</p>
-                <div class="avatar-input-wrapper">
-                  <input type="file" id="new-avatar" name="new-avatar" accept="image/*" style="display: none;">
-                  <button type="button" id="avatar-button" class="settings-button">Choisir un avatar</button>
-                  <span id="avatar-file-name">Aucun fichier choisi</span>
+          <div class="settings-container">
+            <div id="logged-in-settings" style="display: none;">
+              <form id="settings-form">
+                <div class="settings-box">
+                  <label for="new-username">Nouveau pseudo :</label>
+                  <input type="text" id="new-username" name="new-username">
                 </div>
-              </div>
-              <div class="settings-box">
-                <div class="friend-code-container">
-                  <div class="friend-code-display">
-                    <label>Votre code ami :</label>
-                    <span id="friend-code" title="Cliquez pour copier"></span>
+                <div class="settings-box">
+                  <label for="new-avatar">Nouvel avatar :</label>
+                  <p class="avatar-hint">Image carrée recommandée. ex : 100x100px</p>
+                  <div class="avatar-input-wrapper">
+                    <input type="file" id="new-avatar" name="new-avatar" accept="image/*" style="display: none;">
+                    <button type="button" id="avatar-button" class="settings-button">Choisir un avatar</button>
+                    <span id="avatar-file-name">Aucun fichier choisi</span>
                   </div>
-                  <span id="copy-confirmation" class="copy-confirmation"></span>
+                </div>
+                <div class="settings-box">
+                  <div class="friend-code-container">
+                    <div class="friend-code-display">
+                      <label>Votre code ami :</label>
+                      <span id="friend-code" title="Cliquez pour copier"></span>
+                    </div>
+                    <span id="copy-confirmation" class="copy-confirmation"></span>
+                  </div>
+                </div>
+                <button type="submit" class="settings-button">Enregistrer</button>
+              </form>
+              <button id="logout-button" class="settings-button">Déconnexion</button>
+            </div>
+            <div id="logged-out-settings" style="display: none;">
+              <p class="not-connected-message">Vous n'êtes pas connecté.</p>
+              <p>Veuillez vous connecter ou créer un compte pour accéder à toutes les fonctionnalités.</p>
+              <button id="login-button" class="settings-button large-button">Se connecter</button>
+              <button id="signup-button" class="settings-button large-button">Créer un compte</button>
+            </div>
+            <div id="friend-requests" class="friend-requests-section">
+              <h3>Demandes d'ami</h3>
+              <div class="friend-requests-container">
+                <div class="sent-requests">
+                  <h4>Demandes envoyées</h4>
+                  <ul id="sent-requests-list"></ul>
+                </div>
+                <div class="received-requests">
+                  <h4>Demandes reçues</h4>
+                  <ul id="received-requests-list"></ul>
                 </div>
               </div>
-              <button type="submit" class="settings-button">Enregistrer</button>
-            </form>
-            <button id="logout-button" class="settings-button">Déconnexion</button>
-          </div>
-          <div id="logged-out-settings" style="display: none;">
-            <p class="not-connected-message">Vous n'êtes pas connecté.</p>
-            <p>Veuillez vous connecter ou créer un compte pour accéder à toutes les fonctionnalités.</p>
-            <button id="login-button" class="settings-button large-button">Se connecter</button>
-            <button id="signup-button" class="settings-button large-button">Créer un compte</button>
+            </div>
           </div>
         </div>
       </div>

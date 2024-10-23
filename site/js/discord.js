@@ -78,6 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         document.getElementById(targetChannel).classList.add('active');
+        if (targetChannel === 'parametres') {
+            onSettingsTabOpen();
+        }
     }
 
     channelLinks.forEach(link => {
@@ -169,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Charger le thème sauvegardé ou utiliser le thème clair par défaut
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     applyTheme(savedTheme);
 
     // Ajouter l'écouteur d'événements pour le changement de thème
@@ -418,4 +421,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Appeler cette fonction après le chargement de la page et après l'ajout de nouveaux messages
     addUsernameClickListeners();
+
+    // Ajoutez ces fonctions après les autres déclarations de fonctions
+
+    function updateFriendRequests() {
+        const sentRequestsList = document.getElementById('sent-requests-list');
+        const receivedRequestsList = document.getElementById('received-requests-list');
+        
+        // Simulons des demandes d'ami pour l'exemple
+        const sentRequests = [
+            { id: 1, username: 'Utilisateur1' },
+            { id: 2, username: 'Utilisateur2' }
+        ];
+        const receivedRequests = [
+            { id: 3, username: 'Utilisateur3' },
+            { id: 4, username: 'Utilisateur4' }
+        ];
+
+        sentRequestsList.innerHTML = '';
+        receivedRequestsList.innerHTML = '';
+
+        sentRequests.forEach(request => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                ${request.username}
+                <button class="cancel-request" data-id="${request.id}">Annuler</button>
+            `;
+            sentRequestsList.appendChild(li);
+        });
+
+        receivedRequests.forEach(request => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                ${request.username}
+                <div>
+                    <button class="accept-request" data-id="${request.id}">Accepter</button>
+                    <button class="reject-request" data-id="${request.id}">Refuser</button>
+                </div>
+            `;
+            receivedRequestsList.appendChild(li);
+        });
+
+        // Ajoutez des écouteurs d'événements pour les boutons
+        document.querySelectorAll('.cancel-request').forEach(button => {
+            button.addEventListener('click', () => cancelRequest(button.dataset.id));
+        });
+
+        document.querySelectorAll('.accept-request').forEach(button => {
+            button.addEventListener('click', () => acceptRequest(button.dataset.id));
+        });
+
+        document.querySelectorAll('.reject-request').forEach(button => {
+            button.addEventListener('click', () => rejectRequest(button.dataset.id));
+        });
+    }
+
+    function cancelRequest(id) {
+        console.log(`Demande d'ami annulée : ${id}`);
+        // Ajoutez ici la logique pour annuler la demande
+        updateFriendRequests();
+    }
+
+    function acceptRequest(id) {
+        console.log(`Demande d'ami acceptée : ${id}`);
+        // Ajoutez ici la logique pour accepter la demande
+        updateFriendRequests();
+    }
+
+    function rejectRequest(id) {
+        console.log(`Demande d'ami refusée : ${id}`);
+        // Ajoutez ici la logique pour refuser la demande
+        updateFriendRequests();
+    }
+
+    // Appelez cette fonction lorsque l'onglet paramètres est ouvert
+    function onSettingsTabOpen() {
+        updateFriendRequests();
+    }
 });
