@@ -161,11 +161,12 @@ body {
 }
 
 .avatar {
-  width: 40px; /* Augmenté de 32px à 40px */
-  height: 40px; /* Augmenté de 32px à 40px */
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   margin-right: 10px;
   border: 2px solid var(--avatar-border);
+  cursor: pointer; /* Ajout de cette ligne */
 }
 
 .username {
@@ -285,7 +286,8 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.settings-button {
+.settings-button,
+#logout-button {
   background-color: var(--accent);
   color: var(--text-color);
   cursor: pointer;
@@ -294,9 +296,13 @@ body {
   border-radius: 5px;
   font-weight: bold;
   transition: background-color 0.3s;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 15px;
 }
 
-.settings-button:hover {
+.settings-button:hover,
+#logout-button:hover {
   background-color: #4752c4;
 }
 
@@ -312,13 +318,16 @@ body {
 }
 
 .theme-label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
-.theme-label i {
-  font-size: 1.2em;
+.theme-switch-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .theme-switch {
@@ -510,6 +519,8 @@ h6 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: auto; /* Ajoutez cette ligne */
+  min-height: 40px; /* Ajoutez cette ligne */
 }
 
 #friend-code {
@@ -519,6 +530,7 @@ h6 {
   transition: opacity 0.3s;
   flex-grow: 1;
   text-align: center;
+  margin-left: 10px; /* Ajoutez cette ligne pour créer un espace entre le label et le code */
 }
 
 #friend-code:hover {
@@ -534,6 +546,8 @@ h6 {
   margin-top: 5px;
   min-height: 1.5em; /* Augmenté de 1.2em à 1.5em */
   line-height: 1.5em; /* Ajout de cette ligne pour garantir une hauteur constante */
+  text-align: center;
+  width: 100%;
 }
 
 /* Ajoutez ceci à la fin du fichier */
@@ -601,10 +615,263 @@ h6 {
   .modal-buttons {
     flex-direction: column;
   }
-  
+
   .modal-buttons button {
     width: 100%;
     margin-bottom: 10px;
   }
+}
+
+/* Ajoutez ceci à la fin du fichier */
+.avatar-modal-content {
+  text-align: center;
+}
+
+#enlarged-avatar {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 10px;
+}
+
+.close {
+  color: var(--text-color);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Ajoutez ceci à la fin du fichier */
+.user-info-modal-content {
+  text-align: center;
+}
+
+#modal-avatar {
+  max-width: 100%;
+  max-height: 300px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.chat-bubble .message-username {
+  cursor: pointer;
+}
+
+.chat-bubble .message-username:hover {
+  text-decoration: underline;
+}
+
+#logged-out-settings {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px; /* Augmenté de 15px à 20px */
+}
+
+.not-connected-message {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: var(--accent);
+  margin-bottom: 10px; /* Ajout d'une marge en bas */
+}
+
+.large-button {
+  font-size: 1.1em;
+  padding: 12px 20px;
+  width: 100%;
+  max-width: 250px;
+  margin-top: 10px; /* Ajout d'une marge en haut */
+}
+
+.message-form-container {
+  position: relative;
+}
+
+.message-form-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.message-form-overlay p {
+  color: var(--text-color);
+  background-color: var(--secondary-bg);
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.message-form-overlay .settings-button {
+  background-color: var(--accent);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.message-form-overlay .settings-button:hover {
+  background-color: #4752c4;
+}
+
+.user-info-modal-content .friend-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-info-modal-content #modal-friend-code {
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.user-info-modal-content #copy-friend-code {
+  padding: 8px 15px;
+  font-size: 0.9em;
+  width: auto;
+  max-width: none;
+}
+
+.crop-modal-content {
+  width: 90%;
+  max-width: 500px;
+}
+
+.crop-container {
+  max-width: 100%;
+  max-height: 70vh;
+  margin-bottom: 20px;
+}
+
+#crop-image {
+  max-width: 100%;
+  max-height: 70vh;
+}
+
+#zoom-slider {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.avatar-hint {
+  font-size: 0.8em;
+  color: var(--secondary-text);
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+.settings-box {
+  background-color: var(--secondary-bg);
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.settings-box label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.settings-box input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 3px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+.avatar-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#avatar-button {
+  flex-shrink: 0;
+}
+
+#avatar-file-name {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fa-sun,
+.fa-moon {
+  font-size: 1.2em;
+}
+
+/* Modifiez la règle existante pour .friend-code-display */
+.friend-code-display {
+  padding: 10px;
+  background-color: var(--secondary-bg);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: auto; /* Ajoutez cette ligne */
+  min-height: 40px; /* Ajoutez cette ligne */
+}
+
+/* Ajoutez cette nouvelle règle */
+.friend-code-display label {
+  margin-bottom: 0; /* Supprime la marge en bas du label */
+}
+
+/* Modifiez la règle existante pour #friend-code */
+#friend-code {
+  font-weight: bold;
+  color: var(--accent);
+  cursor: pointer;
+  transition: opacity 0.3s;
+  flex-grow: 1;
+  text-align: center;
+  margin-left: 10px; /* Ajoutez cette ligne pour créer un espace entre le label et le code */
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle-btn {
+  background-color: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.2em;
+  cursor: pointer;
+  margin-right: 10px;
+  padding: 5px;
+  transition: color 0.3s;
+}
+
+.theme-toggle-btn:hover {
+  color: var(--accent);
+}
+
+.add-friend-btn {
+  margin-right: 50px;
 }
 

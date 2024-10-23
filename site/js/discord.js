@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userInfoElement = document.querySelector('.user-info');
 
     let messageCount = 0;
-    const messageInterval = 5; // Envoyer un message système tous les 5 messages utilisateur
+    const messageInterval = 5;
     const systemMessages = [
         "N'oubliez pas de rester courtois dans vos échanges !",
         "Vous pouvez utiliser /help pour voir la liste des commandes disponibles.",
@@ -31,38 +31,42 @@ document.addEventListener('DOMContentLoaded', () => {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Charger les informations de l'utilisateur
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser) {
-        const avatarElement = userInfoElement.querySelector('.avatar');
-        avatarElement.src = currentUser.avatarPath;
-        avatarElement.onerror = function() {
-            this.src = '/assets/img/default-avatar.png';
-        };
-        userInfoElement.querySelector('.username').textContent = currentUser.username;
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const loggedInSettings = document.getElementById('logged-in-settings');
+    const loggedOutSettings = document.getElementById('logged-out-settings');
+    const loginButton = document.getElementById('login-button');
+    const signupButton = document.getElementById('signup-button');
 
-        // Afficher le code ami dans l'onglet des paramètres
-        const friendCodeElement = document.getElementById('friend-code');
-        const copyConfirmation = document.getElementById('copy-confirmation');
-        if (friendCodeElement) {
-            friendCodeElement.textContent = currentUser.friendCode;
-            
-            // Ajouter la fonctionnalité de copie
-            friendCodeElement.addEventListener('click', () => {
-                navigator.clipboard.writeText(currentUser.friendCode).then(() => {
-                    copyConfirmation.textContent = 'Votre code ami a été copié';
-                    copyConfirmation.style.opacity = '1';
-                    setTimeout(() => {
-                        copyConfirmation.style.opacity = '0';
-                    }, 2000);
-                }, (err) => {
-                    console.error('Erreur lors de la copie du code ami: ', err);
-                });
-            });
+    function updateSettingsView() {
+        if (currentUser) {
+            loggedInSettings.style.display = 'block';
+            loggedOutSettings.style.display = 'none';
+            userInfoElement.querySelector('.avatar').src = currentUser.avatarPath || '/assets/img/default-avatar.png';
+            userInfoElement.querySelector('.username').textContent = currentUser.username;
+            document.getElementById('new-username').value = currentUser.username;
+            document.getElementById('friend-code').textContent = currentUser.friendCode;
+        } else {
+            loggedInSettings.style.display = 'none';
+            loggedOutSettings.style.display = 'block';
+            userInfoElement.querySelector('.avatar').src = '/assets/img/default-avatar.png';
+            userInfoElement.querySelector('.username').textContent = 'Utilisateur';
         }
     }
 
-    // Fonction pour changer de canal
+    updateSettingsView();
+
+    if (loginButton) {
+        loginButton.addEventListener('click', () => {
+            window.location.href = '/site/login.html';
+        });
+    }
+
+    if (signupButton) {
+        signupButton.addEventListener('click', () => {
+            window.location.href = '/site/sign-up.html';
+        });
+    }
+
     function changeChannel(targetChannel) {
         channels.forEach(channel => {
             channel.classList.remove('active');
@@ -76,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(targetChannel).classList.add('active');
     }
 
-    // Gestion du changement de canal dans la barre latérale
     channelLinks.forEach(link => {
         link.addEventListener('click', () => {
             const targetChannel = link.getAttribute('data-channel');
@@ -84,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Gestion du changement de canal depuis l'onglet Accueil
     const accueilChannelLinks = document.querySelectorAll('#accueil .channel-list li[data-channel]');
     accueilChannelLinks.forEach(link => {
         link.addEventListener('click', () => {
@@ -93,10 +95,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Gestion de l'envoi de messages
     if (messageForm) {
+        const messageFormContainer = messageForm.parentElement;
+        
+        if (!currentUser) {
+            const overlay = document.createElement('div');
+            overlay.className = 'message-form-overlay';
+            overlay.innerHTML = `
+                <p>Veuillez vous connecter pour envoyer des messages.</p>
+                <button id="go-to-settings" class="settings-button">Aller aux paramètres</button>
+            `;
+            messageFormContainer.appendChild(overlay);
+
+            const goToSettingsButton = overlay.querySelector('#go-to-settings');
+            goToSettingsButton.addEventListener('click', () => {
+                changeChannel('parametres');
+            });
+        }
+
         messageForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            if (!currentUser) {
+                alert('Veuillez vous connecter pour envoyer des messages.');
+                return;
+            }
             const messageInput = messageForm.querySelector('input');
             const message = messageInput.value.trim();
             if (message) {
@@ -113,59 +135,89 @@ document.addEventListener('DOMContentLoaded', () => {
                 messageInput.value = '';
                 chatMessages.scrollTop = chatMessages.scrollHeight;
 
-                // Incrémenter le compteur de messages et vérifier s'il faut envoyer un message système
+                // Ajouter l'événement de clic sur le nom d'utilisateur
+                newMessage.querySelector('.message-username').addEventListener('click', (event) => {
+                    event.preventDefault();
+                    showUserInfo(currentUser.username);
+                });
+
                 messageCount++;
                 if (messageCount % messageInterval === 0) {
-                    setTimeout(sendSystemMessage, 1000); // Envoyer le message système après un court délai
+                    setTimeout(sendSystemMessage, 1000);
                 }
             }
         });
     }
 
-    // Gestion des paramètres
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    function applyTheme(theme) {
+        if (theme === 'light') {
+            body.classList.add('light');
+            themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            body.classList.remove('light');
+            themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        localStorage.setItem('theme', theme);
+    }
+
+    function toggleTheme() {
+        const newTheme = body.classList.contains('light') ? 'dark' : 'light';
+        applyTheme(newTheme);
+    }
+
+    // Charger le thème sauvegardé ou utiliser le thème clair par défaut
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
+
+    // Ajouter l'écouteur d'événements pour le changement de thème
+    themeToggleBtn.addEventListener('click', toggleTheme);
+
     if (settingsForm) {
-        const themeToggle = document.getElementById('theme');
         const newUsernameInput = document.getElementById('new-username');
         const newAvatarInput = document.getElementById('new-avatar');
         const avatarButton = document.getElementById('avatar-button');
         const avatarFileName = document.getElementById('avatar-file-name');
+        const friendCodeElement = document.getElementById('friend-code');
         
-        // Charger le thème sauvegardé ou utiliser le thème sombre par défaut
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.body.className = savedTheme;
-        themeToggle.checked = savedTheme === 'light';
-
-        // Pré-remplir le champ du nouveau pseudo avec le pseudo actuel
-        newUsernameInput.value = currentUser.username;
-
         settingsForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const theme = themeToggle.checked ? 'light' : 'dark';
-            document.body.className = theme;
-            localStorage.setItem('theme', theme);
+            applyTheme(theme);
 
-            // Gestion du changement de pseudo
-            const newUsername = newUsernameInput.value.trim();
-            if (newUsername && newUsername !== currentUser.username) {
-                currentUser.username = newUsername;
-                userInfoElement.querySelector('.username').textContent = newUsername;
+            if (currentUser) {
+                const newUsername = newUsernameInput.value.trim();
+                if (newUsername && newUsername !== currentUser.username) {
+                    currentUser.username = newUsername;
+                    userInfoElement.querySelector('.username').textContent = newUsername;
+                }
+
+                const newAvatarFile = newAvatarInput.files[0];
+                if (newAvatarFile) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        currentUser.avatarPath = e.target.result;
+                        userInfoElement.querySelector('.avatar').src = e.target.result;
+                        
+                        // Mettre à jour l'avatar dans tous les messages de l'utilisateur
+                        document.querySelectorAll('.chat-bubble.user .message-avatar').forEach(avatar => {
+                            avatar.src = e.target.result;
+                        });
+
+                        saveUserChanges();
+                    };
+                    reader.readAsDataURL(newAvatarFile);
+                } else {
+                    saveUserChanges();
+                }
             }
+        });
 
-            // Gestion du changement d'avatar
-            const newAvatarFile = newAvatarInput.files[0];
-            if (newAvatarFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    currentUser.avatarPath = e.target.result;
-                    userInfoElement.querySelector('.avatar').src = e.target.result;
-                };
-                reader.readAsDataURL(newAvatarFile);
-            }
-
-            // Mise à jour des informations de l'utilisateur dans le stockage local
+        function saveUserChanges() {
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
-            // Mise à jour de la liste des utilisateurs dans le stockage local
             let users = JSON.parse(localStorage.getItem('users') || '[]');
             const userIndex = users.findIndex(u => u.id === currentUser.id);
             if (userIndex !== -1) {
@@ -173,25 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('users', JSON.stringify(users));
             }
 
+            updateMessagesWithUserInfo();
             alert('Paramètres enregistrés !');
-        });
+        }
 
-        themeToggle.addEventListener('change', () => {
-            document.body.className = themeToggle.checked ? 'light' : 'dark';
-        });
-
-        // Ajouter le bouton de déconnexion
-        const logoutButton = document.createElement('button');
-        logoutButton.textContent = 'Déconnexion';
-        logoutButton.id = 'logout';
-        logoutButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            localStorage.removeItem('currentUser');
-            window.location.href = '/site/login.html';
-        });
-        settingsForm.appendChild(logoutButton);
-
-        // Gestion du bouton d'avatar
         avatarButton.addEventListener('click', () => {
             newAvatarInput.click();
         });
@@ -203,11 +240,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 avatarFileName.textContent = 'Aucun fichier choisi';
             }
         });
-    }
 
-    // Vérification de l'authentification
-    if (!currentUser) {
-        window.location.href = '/site/login.html';
+        friendCodeElement.addEventListener('click', () => {
+            navigator.clipboard.writeText(currentUser.friendCode).then(() => {
+                const copyConfirmation = document.getElementById('copy-confirmation');
+                copyConfirmation.textContent = 'Code ami copié !';
+                copyConfirmation.style.opacity = '1';
+                setTimeout(() => {
+                    copyConfirmation.style.opacity = '0';
+                }, 2000);
+            });
+        });
     }
 
     const addFriendBtn = document.getElementById('add-friend-btn');
@@ -228,9 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addFriendConfirm.addEventListener('click', () => {
         const friendCode = friendCodeInput.value.trim();
         if (friendCode) {
-            // Ici, vous pouvez implémenter la logique pour ajouter un ami
             console.log(`Demande d'ami envoyée avec le code : ${friendCode}`);
-            // Pour cet exemple, nous allons simplement fermer la modal
             addFriendModal.style.display = 'none';
             friendCodeInput.value = '';
         } else {
@@ -238,11 +279,143 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Fermer la modal si l'utilisateur clique en dehors
     window.addEventListener('click', (event) => {
         if (event.target === addFriendModal) {
             addFriendModal.style.display = 'none';
             friendCodeInput.value = '';
         }
     });
+
+    const userInfoModal = document.getElementById('user-info-modal');
+    const modalAvatar = document.getElementById('modal-avatar');
+    const modalUsername = document.getElementById('modal-username');
+    const modalFriendCode = document.getElementById('modal-friend-code');
+    const closeUserInfoModal = userInfoModal.querySelector('.close');
+    const copyFriendCodeBtn = document.getElementById('copy-friend-code');
+
+    function showUserInfo(username) {
+        if (username === 'Système') return;
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => u.username === username);
+        if (user) {
+            // Si l'utilisateur affiché est l'utilisateur actuel, utilisez les informations les plus récentes
+            if (currentUser && user.id === currentUser.id) {
+                modalAvatar.src = currentUser.avatarPath || '/assets/img/default-avatar.png';
+                modalUsername.textContent = currentUser.username;
+                modalFriendCode.textContent = currentUser.friendCode;
+            } else {
+                modalAvatar.src = user.avatarPath || '/assets/img/default-avatar.png';
+                modalUsername.textContent = user.username;
+                modalFriendCode.textContent = user.friendCode;
+            }
+            userInfoModal.style.display = 'block';
+        }
+    }
+
+    closeUserInfoModal.addEventListener('click', () => {
+        userInfoModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === userInfoModal) {
+            userInfoModal.style.display = 'none';
+        }
+    });
+
+    copyFriendCodeBtn.addEventListener('click', () => {
+        const friendCode = modalFriendCode.textContent;
+        navigator.clipboard.writeText(friendCode).then(() => {
+            copyFriendCodeBtn.textContent = 'Copié !';
+            setTimeout(() => {
+                copyFriendCodeBtn.textContent = 'Copier';
+            }, 2000);
+        });
+    });
+
+    document.querySelectorAll('.chat-bubble .message-username').forEach(usernameElement => {
+        usernameElement.addEventListener('click', () => {
+            showUserInfo(usernameElement.textContent);
+        });
+    });
+
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => {
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            updateSettingsView();
+            changeChannel('accueil');
+        });
+    }
+
+    const userAvatar = userInfoElement.querySelector('.avatar');
+    const avatarModal = document.getElementById('avatar-modal');
+    const enlargedAvatar = document.getElementById('enlarged-avatar');
+    const closeAvatarModal = avatarModal.querySelector('.close');
+
+    userAvatar.addEventListener('click', () => {
+        if (currentUser) {
+            enlargedAvatar.src = currentUser.avatarPath || '/assets/img/default-avatar.png';
+            avatarModal.style.display = 'block';
+        }
+    });
+
+    closeAvatarModal.addEventListener('click', () => {
+        avatarModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === avatarModal) {
+            avatarModal.style.display = 'none';
+        }
+    });
+
+    // Ajoutez cette fonction pour mettre à jour les messages après le chargement de la page
+    function updateMessagesWithUserInfo() {
+        if (currentUser) {
+            document.querySelectorAll('.chat-bubble.user').forEach(bubble => {
+                const avatar = bubble.querySelector('.message-avatar');
+                const username = bubble.querySelector('.message-username');
+                avatar.src = currentUser.avatarPath || '/assets/img/default-avatar.png';
+                username.textContent = currentUser.username;
+
+                // Mettre à jour l'événement de clic pour utiliser les informations les plus récentes
+                username.onclick = (event) => {
+                    event.preventDefault();
+                    showUserInfo(currentUser.username);
+                };
+            });
+        }
+    }
+
+    // Appelez cette fonction après chaque mise à jour de l'avatar ou du nom d'utilisateur
+    function saveUserChanges() {
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        const userIndex = users.findIndex(u => u.id === currentUser.id);
+        if (userIndex !== -1) {
+            users[userIndex] = currentUser;
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        updateMessagesWithUserInfo();
+        alert('Paramètres enregistrés !');
+    }
+
+    // Appelez cette fonction après le chargement de la page
+    updateMessagesWithUserInfo();
+
+    // Fonction pour ajouter les écouteurs d'événements aux noms d'utilisateur
+    function addUsernameClickListeners() {
+        document.querySelectorAll('.chat-bubble .message-username').forEach(usernameElement => {
+            usernameElement.addEventListener('click', (event) => {
+                event.preventDefault();
+                showUserInfo(usernameElement.textContent);
+            });
+        });
+    }
+
+    // Appeler cette fonction après le chargement de la page et après l'ajout de nouveaux messages
+    addUsernameClickListeners();
 });
