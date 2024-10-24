@@ -12,8 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const user = users.find(u => u.email === email && u.password === password);
 
             if (user) {
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                window.location.href = '/site/discord.html';
+                try {
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    window.location.href = '/site/discord.html';
+                } catch (storageError) {
+                    if (storageError.name === 'QuotaExceededError') {
+                        alert('Erreur de stockage. Veuillez libérer de l\'espace en supprimant des données inutiles.');
+                    } else {
+                        throw storageError;
+                    }
+                }
             } else {
                 alert('Identifiants incorrects. Veuillez réessayer.');
             }

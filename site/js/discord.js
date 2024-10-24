@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         settingsForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const theme = themeToggle.checked ? 'light' : 'dark';
+            const theme = body.classList.contains('light') ? 'light' : 'dark';
             applyTheme(theme);
 
             if (currentUser) {
@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('currentUser');
             currentUser = null;
             updateSettingsView();
-            changeChannel('accueil');
+            changeChannel('parametres');
         });
     }
 
